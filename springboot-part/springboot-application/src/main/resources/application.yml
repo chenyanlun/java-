@@ -1,0 +1,8 @@
+# web相关的配置
+# https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#appendix.application-properties.server
+server:
+  # 端口号设置
+  port: 80
+  # 项目根路径
+  servlet:
+    context-path: /boot
