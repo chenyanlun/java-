@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.atguigu</groupId>
+    <artifactId>project02</artifactId>
+    <version>1.0-0</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <!--声明一个变量，在其他位置引用${jackson.version} -->
+        <jackson.version>2.17.2</jackson.version>
+
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
+
+    <!--
+    1.maven官网：https://mvnrepository.com
+    2.插件：maven-search
+    -->
+    <dependencies>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <!-- <version>2.17.2</version> -->
+            <version>${jackson.version}</version>
+            <!--可选属性scope：引入依赖的作用域
+             默认：compile - main test 打包和运行
+             test：test有效
+             runtime:打包和运行时有效（mysql反射）
+             provided: main test 打包和运行不同（servlet HttpServlet）-->
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+</project>
