@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
+<mapper namespace="com.atguigu.mapper.TeacherMapper">
+
+    <insert id="insertTeacher">
+        <selectKey order="BEFORE" resultType="string" keyProperty="tId">
+            select replace(UUID(),'-','')
+        </selectKey>
+        INSERT INTO teacher(t_id,t_name)VALUE(#{tId},#{tName});
+    </insert>
+
+</mapper>

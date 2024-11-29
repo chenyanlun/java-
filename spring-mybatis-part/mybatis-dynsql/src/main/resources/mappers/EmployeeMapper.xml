@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
+<mapper namespace="com.atguigu.mapper.EmployeeMapper">
+    
+    <sql id="selectSql">
+        select * from t_emp
+    </sql>
+    
+    <select id="query" resultType="employee">
+        <!--select * from t_emp -->
+        <include refid="selectSql"/>
+        <where>
+            <if test="name != null">
+                emp_name = #{name}
+            </if><!--   &gt; = >    &lt; = <   -->
+            <if test="salary != null and salary &gt; 100 ">
+                and emp_salary = #{salary}
+            </if>
+        </where>
+    </select>
+
+    <update id="update">
+        update t_emp
+        <set>
+            <if test="empName != null">
+                emp_name = #{empName},
+            </if>
+            <if test="empSalary">
+                emp_salary = #{empSalary}
+            </if>
+        </set>
+        where emp_id = #{empId}
+    </update>
+
+    <select id="queryChoose" resultType="employee">
+        select * from t_emp
+        <where>
+            <choose>
+                <when test="name != null">
+                    emp_name = #{name}
+                </when>
+                <when test="salary != null">
+                    emp_salary = #{salary}
+                </when>
+                <otherwise>1 = 1</otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="queryBatch" resultType="employee">
+        select * from t_emp
+        where emp_id in
+        <!--遍历的数据：（1,2,3,...,n）
+        open:遍历之前要加的字符串
+        close:遍历结束要加的字符串
+        item:获取每个遍历项-->
+              <foreach collection="ids" open="(" separator="," close=")" item="id">
+                  #{id}
+              </foreach>
+    </select>
+
+    <delete id="deleteBatch">
+        delete from t_emp where emp_id in
+        <foreach collection="ids" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </delete>
+
+    <insert id="insertBatch">
+        insert into t_emp(emp_name,emp_salary) values
+        <foreach collection="list" separator="," item="employee">
+            (#{employee.empName},#{employee.empSalary})
+        </foreach>
+    </insert>
+
+    <update id="updateBatch">
+        <foreach collection="list" item="employee">
+            update t_emp set emp_name = #{employee.empName},emp_salary = #{employee.empSalary}
+            where emp_id = #{employee.empId};
+        </foreach>
+    </update>
+</mapper>

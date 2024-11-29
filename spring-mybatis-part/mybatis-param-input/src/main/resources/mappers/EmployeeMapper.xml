@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
+<mapper namespace="com.atguigu.mapper.EmployeeMapper">
+
+    <!--
+      #{key} : 占位符+赋值  emp_id = ?  ? = 赋值
+      ${key} : 字符串拼接  “ emp_id = "  +  id
+      实际开发中，能用#{}实现的，肯定不用${}。
+      特殊情况： 动态的不是值，是列名或者关键字，需要使用${}拼接
+    -->
+    <select id="queryById" resultType="com.atguigu.pojo.Employee">
+        select emp_id empId,emp_name empName,emp_salary empSalary
+        from t_emp where emp_id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from t_emp where emp_id = #{id}
+    </delete>
+
+    <select id="queryBySalary" resultType="com.atguigu.pojo.Employee">
+        select emp_id empId,emp_name empName,emp_salary empSalary
+        from t_emp where emp_salary = #{salary}
+    </select>
+
+    <!--传入实体对象
+    key = 属性名即可-->
+    <insert id="insertEmp" >
+        insert into t_emp(emp_name,emp_salary) values(#{empName},#{empSalary})
+    </insert>
+
+    <!--传入多个简单类型取值
+     方案1：@Param注解
+     方案2：mybatis默认机制 ： 形参从左到右依次对应arg0，arg1...或param1,param2-->
+    <select id="queryByNameAndSalary" resultType="com.atguigu.pojo.Employee">
+        select emp_id empId,emp_name empName,emp_salary empSalary
+        from t_emp where emp_name = #{name} and emp_salary = #{salary}
+    </select>
+
+    <!--传入Map
+    key = map中的key-->
+    <insert id="insertEmpMap" >
+        insert into t_emp(emp_name,emp_salary) values(#{name},#{salary})
+    </insert>
+
+
+</mapper>
